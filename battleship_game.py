@@ -1,14 +1,58 @@
 import sys
 
+#Some colors for the game 
+#from colorama import Fore
+#from colorama import Styleq
+#from termcolor import colored
+#CBLUE   = '\33[34m'
+
+#Colors and Style
+
+bold = '\033[1m'
+whitebgblack = '\033[7m'
+default = '\033[0m'
+black = '\033[30m'
+red = '\033[31m'
+green = '\033[32m'
+yellow = '\033[33m'
+blue = '\033[34m'
+purple = '\033[35m'
+cyan = '\033[36m'
+white = '\033[37m'
+
+bgblack = '\033[40m'
+bgred = '\033[41m'
+bggreen = '\033[42m'
+bgyellow = '\033[43m'
+bgblue = '\033[44m'
+bgpurple = '\033[45m'
+bgcyan = '\033[46m'
+bgwhite = '\033[47m'
+
+underline = '\033[2m'
+ 
+     
+
+
+
+
+
+
 # FUNCTIONS:
 
 def print_field(field):
     print("\nYour choices:")
     for i in field:       
         if i == "\n":
-            print(i, end="") 
+            print(i, end="")
+        elif i == "OO":
+            print(green+i+default, end=" ")
+        elif i == "xx":
+            print(black+bgblue+i+default, end=" ")
+        elif i == "@@":
+            print(red+i+default, end=" ")  
         else:
-            print(i, end=" ")
+            print(bgcyan+blue+i+default, end=bgcyan+" "+default)
 
 def cleaning():
     sys.stdout.write("\033[2J")
@@ -18,7 +62,7 @@ def cleaning():
 def player_1_ship_place(stage):
     good_coordinates = []
     while True:
-        player1_ship_place = input("\n\nPlayer 1! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: ")
+        player1_ship_place = input(cyan+"\n\nPlayer 1! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: "+default)
         player1_ship_place = player1_ship_place.split()
         for ship in player1_ship_place:
             for seafield in player_1_seafield:
@@ -34,7 +78,7 @@ def player_1_ship_place(stage):
 def player_2_ship_place(stage):
     good_coordinates = []
     while True:
-        player2_ship_place = input("\n\nPlayer 2! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: ")
+        player2_ship_place = input(cyan+"\n\nPlayer 2! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: "+default)
         player2_ship_place = player2_ship_place.split() 
         for ship in player2_ship_place:
             for seafield in player_2_seafield:
@@ -63,7 +107,7 @@ def striking_function(hits, strikes, strike, seafield):
                 del strikes[index_of_list]
                 strikes.insert(index_of_list, "xx")
                 if seafield[index_of_list] == "OO":
-                    strikes.insert(index_of_list, "OO")
+                    strikes.insert(index_of_list, "@@")
                     del strikes[index_of_list + 1]
                     hits.append("1")
                     break              
@@ -85,7 +129,7 @@ def striking_check(strikes, player):
 
 while True:
 
-    menu = input("\nBATTLESHIP GAME by Sano and Zoli" + "\n\n" + "Press q to exit" + "\n" + "Press m to see manual" + "\n" + "Press s to start game ")
+    menu = input(bold+whitebgblack+"\nBATTLESHIP GAME by Sano and Zoli" + "\n\n" + "Press q to exit" + "\n" + "Press m to see manual" + "\n" + "Press s to start game "'\033[0m')
 
     if menu == "q":
         break
@@ -106,7 +150,6 @@ while True:
         cleaning()
 
         x = 1
-
         while x < 4:
             ship_placing(player_1_seafield, player_1_ship_place(x))
             x += 1
