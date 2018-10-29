@@ -15,6 +15,32 @@ def cleaning():
     #sys.stdout.write("\033[<20>A")
     sys.stdout.flush()
 
+
+def saving(filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame"):
+    # BUG you should change filepath manually before running the program
+    with open(filename, "w") as savedFile:
+        savedFile.write(",".join(player_1_seafield)
+                        + "p"
+                        + ",".join(player_1_strikes)
+                        + "p"
+                        + ",".join(player_2_seafield)
+                        + "p"
+                        + ",".join(player_2_strikes)
+                        )
+
+
+def loading(filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame"):
+    with open(filename, "r") as savedFile:
+        data = savedFile.read()
+        data = data.split("p")
+        data = {"player_1_seafield": data[0].split(","),
+                "player_1_strikes": data[1].split(","),
+                "player_2_seafield": data[2].split(","),
+                "player_2_strikes": data[3].split(",")
+                }
+        return data
+
+
 def player_1_ship_place(stage):
     good_coordinates = []
     while True:
@@ -95,26 +121,26 @@ while True:
         continue
 
     elif menu == "s":
-        player_1_seafield = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n" , "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10"]
-        player_1_strikes = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n" , "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10"]
+        player_1_seafield = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
+        player_1_strikes = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
         player_1_hits = []
 
-        player_2_seafield = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n" , "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10"]
-        player_2_strikes = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n" , "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10"]
-        player_2_hits = []    
+        player_2_seafield = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
+        player_2_strikes = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
+        player_2_hits = []
 
         cleaning()
 
         x = 1
 
-        while x < 4:
+        while x < 2:
             ship_placing(player_1_seafield, player_1_ship_place(x))
             x += 1
 
         cleaning()
         x = 1
 
-        while x < 4:
+        while x < 2:
             ship_placing(player_2_seafield, player_2_ship_place(x))
             x += 1
        
