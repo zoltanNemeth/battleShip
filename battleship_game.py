@@ -206,12 +206,12 @@ def gameplay():
     player_2_hits = []
     cleaning()
     x = 1
-    while x < 2:
+    while x < 4:
         ship_placing(player_1_seafield, player_1_ship_place(x))
         x += 1
     cleaning()
     x = 1
-    while x < 2:
+    while x < 4:
         ship_placing(player_2_seafield, player_2_ship_place(x))
         x += 1
     cleaning()
@@ -225,10 +225,7 @@ def gameplay():
             striking_function(player_2_hits, player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
             cleaning()
 
-        x = 1
-        while x < 4:
-            ship_placing(player_1_seafield, player_1_ship_place(x))
-            x += 1
+    
 
 
 def seafield():
