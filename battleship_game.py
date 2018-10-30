@@ -5,8 +5,9 @@ import sys
 #from colorama import Styleq
 #from termcolor import colored
 #CBLUE   = '\33[34m'
-
 #Colors and Style
+
+# GLOBALS:
 
 bold = '\033[1m'
 whitebgblack = '\033[7m'
@@ -30,13 +31,6 @@ bgcyan = '\033[46m'
 bgwhite = '\033[47m'
 
 underline = '\033[2m'
- 
-     
-
-
-
-
-
 
 # FUNCTIONS:
 
@@ -92,10 +86,6 @@ def player_1_ship_place(stage):
     while True:
         player1_ship_place = input(cyan+"\n\nPlayer 1! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: "+default)
         player1_ship_place = player1_ship_place.split()
-        """
-        if "q" in player1_ship_place:
-            menu()
-        """
         for ship in player1_ship_place:
             for seafield in player_1_seafield:
                 if ship == seafield and seafield != "OO":    
@@ -225,6 +215,12 @@ def gameplay():
             striking_function(player_2_hits, player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
             cleaning()
 
+    if player_2_hits > player_1_hits:
+        print("\n\n" + "Player 2 won")
+        print_field(player_2_strikes)
+    else:
+        print("\n\n" + "Player 1 won")
+        print_field(player_1_strikes)
     
 
 
@@ -235,6 +231,7 @@ def seafield():
     elif menu[0] == "l":
         return loading("/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame")
 
+# TO BE MAIN
 
 menu = menu()
 seafield = seafield()
