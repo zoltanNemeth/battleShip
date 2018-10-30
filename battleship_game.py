@@ -2,6 +2,7 @@ import sys
 
 # FUNCTIONS:
 
+
 def print_field(field):
     print("\nYour choices:")
     for i in field:       
@@ -9,6 +10,7 @@ def print_field(field):
             print(i, end="") 
         else:
             print(i, end=" ")
+
 
 def cleaning():
     sys.stdout.write("\033[2J")
@@ -33,11 +35,11 @@ def loading(filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame"
     with open(filename, "r") as savedFile:
         data = savedFile.read()
         data = data.split("p")
-        data = {"player_1_seafield": data[0].split(","),
-                "player_1_strikes": data[1].split(","),
-                "player_2_seafield": data[2].split(","),
-                "player_2_strikes": data[3].split(",")
-                }
+        data = [data[0].split(","),
+                data[1].split(","),
+                data[2].split(","),
+                data[3].split(",")
+               ]
         return data
 
 
@@ -46,6 +48,10 @@ def player_1_ship_place(stage):
     while True:
         player1_ship_place = input("\n\nPlayer 1! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: ")
         player1_ship_place = player1_ship_place.split()
+        """
+        if "q" in player1_ship_place:
+            menu()
+        """
         for ship in player1_ship_place:
             for seafield in player_1_seafield:
                 if ship == seafield and seafield != "OO":    
@@ -107,59 +113,93 @@ def striking_check(strikes, player):
         else:
             print("Wrong format or reserved place, try again!")
 
-# "MAIN()"
+def menu():
 
-while True:
+    pause = True
 
-    menu = input("\nBATTLESHIP GAME by Sano and Zoli" + "\n\n" + "Press q to exit" + "\n" + "Press m to see manual" + "\n" + "Press s to start game ")
+    while pause == True:
 
-    if menu == "q":
-        break
+        menu = [input("\nBATTLESHIP GAME by Sano and Zoli"
+                     + "\n\n" + "Press q to exit"
+                     + "\n" + "Press m to see manual"
+                     + "\n" + "Press s to start game "
+                     + "\n" + "Press l to load game "
+                     + "\n" + "Press sv to save game "
+                     )]
 
-    elif menu == "m":
-        print("\nThe size of the seafield is 10X10, use letters (rows) and numbers (columns) to enter the coordinates, e.g.: a1 a2")
-        continue
+        if menu[0] == "q":  # BUG need to be implemented
+            pass
 
-    elif menu == "s":
-        player_1_seafield = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
-        player_1_strikes = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
-        player_1_hits = []
+        elif menu[0] == "m":
+            print("\nThe size of the seafield is 10X10, "
+                  + "use letters (rows) and numbers (columns) "
+                  + "to enter the coordinates, e.g.: a1 a2"
+                  )
+            continue
 
-        player_2_seafield = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
-        player_2_strikes = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "\n", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "b10", "\n", "c1","c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "\n", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "d10", "\n", "e1", "e2" , "e3", "e4", "e5", "e6", "e7", "e8", "e9", "e10", "\n", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", '\n', "g1", "g2", "g3", "g4", "g5", "g6", "g7", "g8", "g9", "g10", "\n", "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", "h9", "h10", "\n", "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10", "\n", "j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10", "\n"]
-        player_2_hits = []
+        elif menu[0] == "l":
+            return menu
 
+        elif menu[0] == "s":
+            return menu
+        
+        elif menu[0] == "sv":
+            saving()
+
+        elif menu[0] == "c":
+            pause = False  # Or should we use return?
+
+
+def gameplay():
+    
+    global player_1_seafield
+    global player_1_strikes
+    global player_2_seafield
+    global player_2_strikes
+
+    player_1_hits = []
+    player_2_hits = []
+    cleaning()
+    x = 1
+    while x < 2:
+        ship_placing(player_1_seafield, player_1_ship_place(x))
+        x += 1
+    cleaning()
+    x = 1
+    while x < 2:
+        ship_placing(player_2_seafield, player_2_ship_place(x))
+        x += 1
+    cleaning()
+
+    while len(player_1_hits) < 2 and len(player_2_hits) < 2:
+        print_field(player_1_strikes)
+        striking_function(player_1_hits, player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
         cleaning()
-
-        x = 1
-
-        while x < 2:
-            ship_placing(player_1_seafield, player_1_ship_place(x))
-            x += 1
-
-        cleaning()
-        x = 1
-
-        while x < 2:
-            ship_placing(player_2_seafield, player_2_ship_place(x))
-            x += 1
-       
-        cleaning()
-
-        while len(player_1_hits) < 2 and len(player_2_hits) < 2:
-            print_field(player_1_strikes)
-            striking_function(player_1_hits, player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
-            cleaning()
-            if len(player_1_hits) < 2 and len(player_2_hits) < 2:
-                print_field(player_2_strikes)
-                striking_function(player_2_hits, player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
-                cleaning()    
-
-        if player_2_hits > player_1_hits:
-            print("\n\n" + "Player 2 won")
+        if len(player_1_hits) < 2 and len(player_2_hits) < 2:
             print_field(player_2_strikes)
-            break
-        else:
-            print("\n\n" + "Player 1 won")
-            print_field(player_1_strikes)
-            break
+            striking_function(player_2_hits, player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
+            cleaning()
+
+    if player_2_hits > player_1_hits:
+        print("\n\n" + "Player 2 won")
+        print_field(player_2_strikes)
+    else:
+        print("\n\n" + "Player 1 won")
+        print_field(player_1_strikes)
+
+
+def seafield():
+    global menu
+    if menu[0] == "s":
+        return loading("/home/nemethzoltan/Desktop/battleShip/battleShipSeafield")
+    elif menu[0] == "l":
+        return loading("/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame")
+
+
+menu = menu()
+seafield = seafield()
+player_1_seafield = seafield[0]
+player_1_strikes = seafield[1]
+player_2_seafield = seafield[2]
+player_2_strikes = seafield[3]
+gameplay()
