@@ -399,3 +399,4 @@ while exit == False:
         if player_1_strike_counter > 0 or player_2_strike_counter > 0:
             loadedPhase = "battle"
         gameplay()
+        print("game over")
