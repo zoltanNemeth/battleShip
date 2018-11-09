@@ -415,7 +415,7 @@ def ship_placing(seafield, shipplace):
 
 # Decides whether the strike hits a shippart or not
 # and changes the strikes list and increment the hits by one
-def striking_function(hits, strikes, strike, seafield):
+def striking_function(player, strikes, strike, seafield):
     if strike == "q":
         global menu
         menu = "q"
@@ -430,9 +430,9 @@ def striking_function(hits, strikes, strike, seafield):
             if seafield[index_of_list] == "OO":
                 strikes.insert(index_of_list, "@@")
                 del strikes[index_of_list + 1]
-                if hits == player_1_hits:
+                if player == "player 1":
                     player_1_hits += 1
-                elif hits == player_2_hits:
+                elif player == "player 2":
                     player_2_hits += 1
                 break
 
@@ -440,14 +440,14 @@ def striking_function(hits, strikes, strike, seafield):
 def striking_check(strikes, player):
     good_coordinates = []
     while True:
-        player_1_strike = input("\n\nPlayer " + str(player) + ", please give a coordinate to strike: ")
-        if player_1_strike == "q":
+        new_strike = input("\n\nPlayer " + str(player) + ", please give a coordinate to strike: ")
+        if new_strike == "q":
             return "q"
         for strike in strikes:
-            if player_1_strike == strike and strike != "OO" and strike != "xx":    
+            if new_strike == strike and strike != "OO" and strike != "xx":    
                 good_coordinates.append("1")
         if len(good_coordinates) == 1:
-            return player_1_strike
+            return new_strike
         else:
             print("Wrong format or reserved place, try again!")
 
@@ -549,7 +549,9 @@ def gameplay():
             global player_1_strike_counter
             global player_2_strike_counter
             print_field(player_1_strikes)
-            striking_function(player_1_hits, player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
+            print(player_1_hits, player_1_strike_counter)  # Only for debugging
+            print(player_2_hits, player_2_strike_counter)  # Only for debugging
+            striking_function("player 1", player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
             if menu == "q":
                 return
             player_1_strike_counter += 1
@@ -560,27 +562,22 @@ def gameplay():
             global player_2_hits
             global player_1_strike_counter
             global player_2_strike_counter
-            if player_1_hits < 2 and player_2_hits < 2:
-                print_field(player_2_strikes)
-                striking_function(player_2_hits, player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
-                if menu == "q":
-                    return
-                player_2_strike_counter += 1
-                cleaning()
+            print_field(player_2_strikes)
+            print(player_1_hits, player_1_strike_counter)  # Only for debugging
+            print(player_2_hits, player_2_strike_counter)  # Only for debugging
+            striking_function("player 2", player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
+            if menu == "q":
+                return
+            player_2_strike_counter += 1
+            cleaning()
         
-        while player_1_hits < 2 and player_2_hits < 2:
+        while player_1_hits < maxHits and player_2_hits < maxHits:
             if player_1_strike_counter <= player_2_strike_counter:
                 player_1_striking()
                 if menu == "q":
                     return
-                player_2_striking()
-                if menu == "q":
-                    return
             else:
                 player_2_striking()
-                if menu == "q":
-                    return
-                player_1_striking()
                 if menu == "q":
                     return
 
@@ -596,10 +593,16 @@ def gameplay():
         return
 
     if player_2_hits > player_1_hits:
-        print("\n\n" + "Player 2 won")
+        print(player_1_hits, player_1_strike_counter)  # Only for debugging
+        print(player_2_hits, player_2_strike_counter)  # Only for debugging
+        print("\n\n" + "Player 2 won in", player_2_strike_counter, "turns.")
+        print("Player 1 would need", maxHits - player_1_hits, "more hit(s).")
         print_field(player_2_strikes)
-    else:
-        print("\n\n" + "Player 1 won")
+    elif player_2_hits < player_1_hits:
+        print(player_1_hits, player_1_strike_counter)  # Only for debugging
+        print(player_2_hits, player_2_strike_counter)  # Only for debugging
+        print("\n\n" + "Player 1 won in", player_1_strike_counter, "turns.")
+        print("Player 2 would need", maxHits - player_2_hits, "more hit(s).")
         print_field(player_1_strikes)
     global exit
     exit = True
@@ -618,16 +621,20 @@ def seafield_func():
     if menu == "s":
         seafield = loading("new", "/home/nemethzoltan/Desktop/battleShip/battleShipSeafield")
         while placing_turns <= 0 or placing_turns > 4:
-            try:
-                placing_turns = input("How many ships would you like: ")
-                if placing_turns != "q":
-                    placing_turns = int(placing_turns)
-            except ValueError:
-                cleaning()
-                print("Only integers are allowed!")
-            if placing_turns == "q":
-                menu = "q"
-                return
+            x = False
+            while x is False:
+                placing_turns = "a"
+                while type(placing_turns) != int:
+                    try:
+                        placing_turns = input("How many ships would you like? ")
+                        if placing_turns != "q":
+                            placing_turns = int(placing_turns)
+                    except ValueError:
+                        print("Only integers are allowed!")
+                    if placing_turns == "q":
+                        menu = "q"
+                        return
+                    x = True
         return
     elif menu == "l":
         seafield = loading("saved", "/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame")
@@ -663,6 +670,7 @@ while exit == False:
         player_2_strike_counter = 0
         player_1_hits = 0
         player_2_hits = 0
+        maxHits = 0
         coordsNearShips1 = []
         coordsNearShips2 = []
         seafield = []
@@ -673,8 +681,18 @@ while exit == False:
         player_2_strikes = seafield[3]
         if player_1_strike_counter > 0 or player_2_strike_counter > 0:
             loadedPhase = "battle"
+
+        if placing_turns == 1:
+            maxHits = 1
+        elif placing_turns == 2:
+            maxHits = 3
+        elif placing_turns == 3:
+            maxHits = 6
+        else:
+            maxHits = 10
+
         gameplay()
         print(coordsNearShips1)  # Only for debugging
         print(coordsNearShips2)  # Only for debugging
         a = input("Press enter to continue ")  # Only for debugging
-        saving()  # Only for debugging
+        # saving()  # Only for debugging
