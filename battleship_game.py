@@ -90,38 +90,46 @@ def loading(type, filename="/home/nemethzoltan/Desktop/battleShip/battleShipSave
         with open(filename, "r") as savedFile:
             data = savedFile.read()
             data = data.split("p")
-            data = [data[0].split(","),
-                    data[1].split(","),
-                    data[2].split(","),
-                    data[3].split(",")
-                   ]
+            data = [
+                   data[0].split(","),
+                   data[1].split(","),
+                   data[2].split(","),
+                   data[3].split(",")
+            ]
             return data
     elif type == "saved":
         with open(filename, "r") as savedFile:
             data = savedFile.read()
             data = data.split("p")
-            data = [data[0].split(","),
-                    data[1].split(","),
-                    data[2].split(","),
-                    data[3].split(","),
-                    data[4],
-                    data[5],
-                    data[6],
-                    data[7],
-                    data[8],
-                    data[9],
-                    data[10],
-                    data[11].split(","),
-                    data[12].split(",")
-                   ]
+            data = [
+                   data[0].split(","),
+                   data[1].split(","),
+                   data[2].split(","),
+                   data[3].split(","),
+                   data[4],
+                   data[5],
+                   data[6],
+                   data[7],
+                   data[8],
+                   data[9],
+                   data[10],
+                   data[11].split(","),
+                   data[12].split(",")
+            ]
             return data
 
-def new_placing(player1_ship_place, stage, player_1_seafield):
+
+def new_placing(coordinates, stage, player_1_seafield):
+
+    from commonFunctions import letter, letterAbove, letterBelow
+    from commonFunctions import number, numberNext, numberPrev
+    from commonFunctions import position, coord1IsOnWhatSideOfCoord2
+
     letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
-    # print(player1_ship_place[0])
+    # print(coordinates[0])
 
     firstCheck = []
-    for ship in player1_ship_place:
+    for ship in coordinates:
             for seafield in player_1_seafield:
                 if ship == seafield and seafield != "OO":
                     # if ship not in coordsNearShips:
@@ -129,281 +137,136 @@ def new_placing(player1_ship_place, stage, player_1_seafield):
                         # if ship != coordinate...
                     firstCheck.append("1")
 
-    if len(player1_ship_place) >= 2 and len(player1_ship_place) == len(firstCheck):
+    if len(coordinates) >= 2 and len(coordinates) == len(firstCheck):
 
-        def letter(coordinate):
-            letter = coordinate[0][0]
-            return letter
-
-        def letterAbove(coordinate):  
-            if coordinate[0] != "a":
-                letterAbove = letters[letters.index(coordinate[0]) - 1]  # BUG coord jx added in case of ax
-            else:
-                letterAbove = "x"
-            return letterAbove
-
-        def letterBelow(coordinate):
-            try:
-                letterBelow = letters[letters.index(coordinate[0]) + 1]  # BUG IndexError (out of range)
-            except IndexError:
-                letterBelow = "x"
-            return letterBelow
-
-        def number(coordinate):
-            if len(coordinate) == 3:
-                number = "10"
-            else:
-                number = coordinate[1]
-            return number
-
-        def numberNext(coordinate):
-            if len(coordinate) == 3:
-                numberNext = "0"
-            else:
-                numberNext = str(int(coordinate[1]) + 1)  # small BUG can give coord x10? unnecessarily
-            return numberNext
-
-        def numberPrev(coordinate):
-            if len(coordinate) == 3:
-                numberPrev = "9"
-            else:
-                numberPrev = str(int(coordinate[1]) - 1)  # small BUG can give coord x0 unnecessarily
-            return numberPrev
-        
-        def position(coordsOfShip):
-            if coordsOfShip[0][0] == coordsOfShip[-1][0]:
-                return "horizontal"
-            else:
-                return "vertical"
-        
-        def coord1IsOnWhatSideOfCoord2(coordsOfShip):
-            if number(coordsOfShip[0]) == str(int(number(coordsOfShip[1])) + 1):
-                coord1IsOnWhatSideOfCoord2 = "right"
-                return coord1IsOnWhatSideOfCoord2
-            elif number(coordsOfShip[0]) == str(int(number(coordsOfShip[1])) - 1):
-                coord1IsOnWhatSideOfCoord2 = "left"
-                return coord1IsOnWhatSideOfCoord2
-            else:
-                return
-
-    if stage == 2:
-        if len(player1_ship_place) == 2 and len(player1_ship_place) == len(firstCheck):
-            letter1 = letter(player1_ship_place[0])
-            letter2 = letter(player1_ship_place[1])
-            number1 = number(player1_ship_place[0])
-            number2 = number(player1_ship_place[1])
-            first = player1_ship_place[0]
-            # print("Hol a hiba?")
-            # print(letter, number, letter2, number2)
-            # print(letterAbove, letterBelow)
-            if letter1 == letter2 and (number2 == numberNext(first) or number2 == numberPrev(first)):
-                return player1_ship_place  # left or right
-            elif letter2 == letterAbove(first) or letter2 == letterBelow(first) and number1 == number2:
-                # Why letter2 == (letterAbove or letterBelow) is not working?
-                return player1_ship_place  # above or below
-            else:
-                player1_ship_place = False
-                return player1_ship_place
-    try:
-        if stage == 3:  # This statement adds a 3rd coord to the existing 2
-            if position(player1_ship_place) == "horizontal":  # If coord1 and coord2 are in the same row
-                if coord1IsOnWhatSideOfCoord2(player1_ship_place) == "right":  # If coord1 is on the right of coord2
-                    player1_ship_place.append(player1_ship_place[0][0]
-                                              + (str(int(player1_ship_place[0][1]) - 2))
-                                              )
-                elif coord1IsOnWhatSideOfCoord2(player1_ship_place) == "left":  # If coord1 is on the left of coord2
-                    player1_ship_place.append(player1_ship_place[0][0]
-                                              + (str(int(player1_ship_place[0][1]) + 2))
-                                              )
+        if stage == 2:
+            if len(coordinates) == 2 and len(coordinates) == len(firstCheck):
+                letter1 = letter(coordinates)
+                letter2 = letter(coordinates, 1)
+                number1 = number(coordinates)
+                number2 = number(coordinates, 1)
+                firstCoord = coordinates[0]
+                # print("Hol a hiba?")
+                print(letter1, number1, letter2, number2)
+                # print(letterAbove, letterBelow)
+                if letter1 == letter2 and (number2 == numberNext(firstCoord) or number2 == numberPrev(firstCoord)):
+                    return coordinates  # left or right
+                elif letter2 == letterAbove(firstCoord) or letter2 == letterBelow(firstCoord) and number1 == number2:
+                    # Why letter2 == (letterAbove or letterBelow) is not working?
+                    return coordinates  # above or below
                 else:
-                    player1_ship_place = False
-                    return player1_ship_place
+                    coordinates = False
+                    return coordinates
+        try:
+            if stage == 3:  # This statement adds a 3rd coord to the existing 2
+                if position(coordinates) == "horizontal":  # If coord1 and coord2 are in the same row
+                    if coord1IsOnWhatSideOfCoord2(coordinates) == "right":  # If coord1 is on the right of coord2
+                        coordinates.append(letter(coordinates)
+                                                  + (str(int(coordinates[0][1]) - 2))
+                                                  )
+                    elif coord1IsOnWhatSideOfCoord2(coordinates) == "left":  # If coord1 is on the left of coord2
+                        coordinates.append(coordinates[0][0]
+                                                  + (str(int(coordinates[0][1]) + 2))
+                                                  )
+                    else:
+                        coordinates = False
+                        return coordinates
 
-            elif position(player1_ship_place) == "vertical":  # If coord1 and coord2 are NOT in the same row, so are in the same column
-                for letter in letters:
-                    if letter == player1_ship_place[0][0]:
-                        if letters.index(letter) > letters.index(player1_ship_place[1][0]):  # If coord1 is below than coord2
-                            if (letters.index(letter) - 2) > 0:
-                                # print("Here I am", player1_ship_place)  # Only for debugging
-                                # print(letterAbove(player1_ship_place[-1]))  # Only for debugging
-                                # print(number(player1_ship_place))  # Only for debugging
-                                player1_ship_place.append(
-                                    letterAbove(player1_ship_place[-1])
-                                    + number(player1_ship_place[0])
-                                )
-                                # print("Here I am2", player1_ship_place)  # Only for debugging
-                            else:
-                                player1_ship_place = False
-                                return player1_ship_place
-                        elif letters.index(letter) < letters.index(player1_ship_place[1][0]):  # If coord1 is above coord2
-                            player1_ship_place.append(letters[letters.index(letter) + 2]
-                                                      + number(player1_ship_place[0])
-                                                      )
-                        else:
-                            player1_ship_place = False
-                            return player1_ship_place
-            return player1_ship_place
-
-        if stage == 4:
-            if player1_ship_place[0][0] == player1_ship_place[1][0]:  # If coord1 and coord2 is in the same row 
-                if player1_ship_place[0][1] == str(int(player1_ship_place[1][1]) + 1):  # If coord1 is on the right of coord2
-                    player1_ship_place.append(player1_ship_place[0][0]
-                                              + str(int(player1_ship_place[0][1]) - 2)
-                                              )
-                    player1_ship_place.append(player1_ship_place[0][0]
-                                              + (str(int(player1_ship_place[0][1]) - 3))
-                                              )
-                elif player1_ship_place[0][1] == str(int(player1_ship_place[1][1]) - 1):  # If coord1 is on the left of coord2
-                    player1_ship_place.append(player1_ship_place[0][0]
-                                              + str(int(player1_ship_place[0][1]) + 2)
-                                              )
-                    player1_ship_place.append(player1_ship_place[0][0]
-                                              + str(int(player1_ship_place[0][1]) + 3)
-                                              )
-                else:
-                    player1_ship_place = False
-                    return player1_ship_place
-
-            elif player1_ship_place[0][0] != player1_ship_place[1][0]:  # If coord1 and coord2 is NOT in the same row 
-                for letter in letters:
-                    if letter == player1_ship_place[0][0]:
-                        if letters.index(letter) > letters.index(player1_ship_place[1][0]):  # If coord1 is below than coord2
-                            if (letters.index(letter) - 2) > 0 and (letters.index(letter) - 3) > 0:
-                                player1_ship_place.append(letters[letters.index(letter) - 2]
-                                                          + number(player1_ship_place[0])
-                                                          )
-                                player1_ship_place.append(letters[letters.index(letter) - 3]
-                                                          + number(player1_ship_place[0])
+                elif position(coordinates) == "vertical":  # If coord1 and coord2 are NOT in the same row, so are in the same column
+                    for letter in letters:
+                        if letter == coordinates[0][0]:
+                            if letters.index(letter) > letters.index(coordinates[1][0]):  # If coord1 is below than coord2
+                                if (letters.index(letter) - 2) > 0:
+                                    # print("Here I am", coordinates)  # Only for debugging
+                                    # print(letterAbove(coordinates[-1]))  # Only for debugging
+                                    # print(number(coordinates))  # Only for debugging
+                                    coordinates.append(
+                                        letterAbove(coordinates[-1])
+                                        + number(coordinates)
+                                    )
+                                    # print("Here I am2", coordinates)  # Only for debugging
+                                else:
+                                    coordinates = False
+                                    return coordinates
+                            elif letters.index(letter) < letters.index(coordinates[1][0]):  # If coord1 is above coord2
+                                coordinates.append(letters[letters.index(letter) + 2]
+                                                          + number(coordinates)
                                                           )
                             else:
-                                player1_ship_place = False
-                                return player1_ship_place
-                        elif letters.index(letter) < letters.index(player1_ship_place[1][0]):  # If coord1 is above coord2
-                            player1_ship_place.append(letters[letters.index(letter) + 2]
-                                                      + number(player1_ship_place[0])
-                                                      )
-                            player1_ship_place.append(letters[letters.index(letter) + 3]
-                                                      + number(player1_ship_place[0])
-                                                      )
-                        else:
-                            player1_ship_place = False
-                            return player1_ship_place
-            return player1_ship_place
-    except IndexError:
-        player1_ship_place = False
-        return player1_ship_place
+                                coordinates = False
+                                return coordinates
+                return coordinates
+
+            if stage == 4:
+                if coordinates[0][0] == coordinates[1][0]:  # If coord1 and coord2 is in the same row 
+                    if coordinates[0][1] == str(int(coordinates[1][1]) + 1):  # If coord1 is on the right of coord2
+                        coordinates.append(coordinates[0][0]
+                                                  + str(int(coordinates[0][1]) - 2)
+                                                  )
+                        coordinates.append(coordinates[0][0]
+                                                  + (str(int(coordinates[0][1]) - 3))
+                                                  )
+                    elif coordinates[0][1] == str(int(coordinates[1][1]) - 1):  # If coord1 is on the left of coord2
+                        coordinates.append(coordinates[0][0]
+                                                  + str(int(coordinates[0][1]) + 2)
+                                                  )
+                        coordinates.append(coordinates[0][0]
+                                                  + str(int(coordinates[0][1]) + 3)
+                                                  )
+                    else:
+                        coordinates = False
+                        return coordinates
+
+                elif coordinates[0][0] != coordinates[1][0]:  # If coord1 and coord2 is NOT in the same row 
+                    for letter in letters:
+                        if letter == coordinates[0][0]:
+                            if letters.index(letter) > letters.index(coordinates[1][0]):  # If coord1 is below than coord2
+                                print("Here I am")  # Only for debugging
+                                if (letters.index(letter) - 3) >= 0:
+                                    print("Here I am")  # Only for debugging
+                                    coordinates.append(letters[letters.index(letter) - 2]
+                                                              + number(coordinates)
+                                                              )
+                                    coordinates.append(letters[letters.index(letter) - 3]
+                                                              + number(coordinates)
+                                                              )
+                                else:
+                                    coordinates = False
+                                    return coordinates
+                            elif letters.index(letter) < letters.index(coordinates[1][0]):  # If coord1 is above coord2
+                                coordinates.append(letters[letters.index(letter) + 2]
+                                                          + number(coordinates)
+                                                          )
+                                coordinates.append(letters[letters.index(letter) + 3]
+                                                          + number(coordinates)
+                                                          )
+                            else:
+                                coordinates = False
+                                return coordinates
+                return coordinates
+        except IndexError:
+            coordinates = False
+            return coordinates
 
 def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
 
-    global coordsNearShips1  # Only for debugging
-    global coordsNearShips2  # Only for debugging
+    from commonFunctions import letter, letterAbove, letterBelow
+    from commonFunctions import number, numberNext, numberPrev
+    from commonFunctions import position, rowsBeside, columnsBeside, isReverse
+
+    # global coordsNearShips1  # Only for debugging
+    # global coordsNearShips2  # Only for debugging
     
     letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
-
-    def letter(coordinate):
-        letter = coordinate[0][0]
-        return letter
-    
-    def letterAbove(coordinate):  
-        if coordinate[0] != "a":
-            letterAbove = letters[letters.index(coordinate[0]) - 1]  # BUG coord jx added in case of ax
-        else:
-            letterAbove = "x"
-        return letterAbove
-
-    def letterBelow(coordinate):
-        try:
-            letterBelow = letters[letters.index(coordinate[0]) + 1]  # BUG IndexError (out of range)
-        except IndexError:
-            letterBelow = "x"
-        return letterBelow
-
-    def number(coordinate):
-        if len(coordinate) == 3:
-            number = "10"
-        else:
-            number = coordinate[1]
-        return number
-
-    def numberNext(coordinate):
-        if len(coordinate) == 3:
-            numberNext = "0"
-        else:
-            numberNext = str(int(coordinate[1]) + 1)  # small BUG can give coord x10? unnecessarily
-        return numberNext
-    
-    def numberPrev(coordinate):
-        if len(coordinate) == 3:
-            numberPrev = "9"
-        else:
-            numberPrev = str(int(coordinate[1]) - 1)  # small BUG can give coord x0 unnecessarily
-        return numberPrev
-    
-    def position(coordsOfShip):
-        if coordsOfShip[0][0] == coordsOfShip[-1][0]:
-            return "horizontal"
-        else:
-            return "vertical"
-
-    def isReverse(coordsOfShip):
-        if position(coordsOfShip) == "horizontal":
-            if int(number(coordsOfShip[0])) > int(number(coordsOfShip[-1])):
-                return True
-            else:
-                return False
-        else:  # If vertical
-            if letters.index(letter(coordsOfShip[0])) > letters.index(letter(coordsOfShip[-1])):
-                return True
-            else:
-                return False
-
-    def rowsBeside(coordsOfShip):  # IF HORIZONTAL!
-        for coordinate in coordsOfShip:  # Add to coordsNearShips the row above and below of the ship
-            if letter != "a":
-                coordsNearShips.append(
-                    letterAbove(coordinate)
-                    + number(coordinate)
-                )
-            if letter != "j":
-                coordsNearShips.append(
-                    letterBelow(coordinate)
-                    + number(coordinate)
-                )
-    
-    def columnsBeside(coordsOfShip):  # IF HORIZONTAL!
-        if isReverse(coordsOfShip) == True:
-            print("Nu")
-            leftEnd = letter(coordsOfShip[-1]) + numberPrev(coordsOfShip[-1])
-            rightEnd = letter(coordsOfShip[0]) + numberNext(coordsOfShip[0])
-        else:
-            leftEnd = letter(coordsOfShip[0]) + numberPrev(coordsOfShip[0])
-            rightEnd = letter(coordsOfShip[-1]) + numberNext(coordsOfShip[-1])
-            print(leftEnd)  # Only for debugging
-            print(rightEnd)  # Only for debugging
-        coordsNearShips.extend(  # Add to coordsNearShips the column on the left of the ship
-                [
-                letterAbove(leftEnd) + number(leftEnd),
-                leftEnd,
-                letterBelow(leftEnd) + number(leftEnd)
-                ]
-        )
-        coordsNearShips.extend(  # Add to coordsNearShips the column on the right of the ship
-            [
-            letterAbove(rightEnd) + number(rightEnd),
-            rightEnd,
-            letterBelow(rightEnd) + number(rightEnd)
-            ]
-        )
-
 
     if stage == 1:  # Collects the coords near the 1-coord-long ship
             
         coordsNearShips.extend(
             [
-            letter(coordsOfShip[0]) + numberNext(coordsOfShip[0]),  # right coord
-            letter(coordsOfShip[0]) + numberPrev(coordsOfShip[0]),  # left coord
-            letterBelow(coordsOfShip[0]) + number(coordsOfShip[0]),  # coord below
-            letterAbove(coordsOfShip[0]) + number(coordsOfShip[0]),  # coord above
+            letter(coordsOfShip) + numberNext(coordsOfShip[0]),  # right coord
+            letter(coordsOfShip) + numberPrev(coordsOfShip[0]),  # left coord
+            letterBelow(coordsOfShip[0]) + number(coordsOfShip),  # coord below
+            letterAbove(coordsOfShip[0]) + number(coordsOfShip),  # coord above
             letterAbove(coordsOfShip[0]) + numberNext(coordsOfShip[0]),  # upper right corner
             letterAbove(coordsOfShip[0]) + numberPrev(coordsOfShip[0]),  # upper left corner
             letterBelow(coordsOfShip[0]) + numberNext(coordsOfShip[0]),  # right corner below
@@ -414,17 +277,17 @@ def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
     if stage >= 2:
         if position(coordsOfShip) == "horizontal":
             print("horizontal")  # Only for debugging
-            rowsBeside(coordsOfShip)
-            columnsBeside(coordsOfShip)
+            rowsBeside(coordsOfShip, coordsNearShips)
+            columnsBeside(coordsOfShip, coordsNearShips)
         else:  # If vertical
             print("vertical")  # Only for debugging
             if isReverse(coordsOfShip) == True:
                 print("reverse")  # Only for debugging
-                endAbove = letterBelow(coordsOfShip[0]) + number(coordsOfShip[0])
-                endBelow = letterAbove(coordsOfShip[-1]) + number(coordsOfShip[-1])
+                endAbove = letterBelow(coordsOfShip[0]) + number(coordsOfShip)
+                endBelow = letterAbove(coordsOfShip[-1]) + number(coordsOfShip, -1)
             else:  # If not reversed
-                endAbove = letterAbove(coordsOfShip[0]) + number(coordsOfShip[0])
-                endBelow = letterBelow(coordsOfShip[-1]) + number(coordsOfShip[-1])
+                endAbove = letterAbove(coordsOfShip[0]) + number(coordsOfShip)
+                endBelow = letterBelow(coordsOfShip[-1]) + number(coordsOfShip, -1)
 
             if endAbove != "a":
                 coordsNearShips.extend(  # Add to coordsNearShips the row above of the ship
@@ -451,24 +314,10 @@ def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
                     ]
                 )
 
-
-def isInputValid(stage, input, seafield):
-    try:
-        good_coordinates = 0
-        for item in input:
-            for coordinate in seafield:
-                if item == coordinate and coordinate != "OO":
-                        good_coordinates += 1
-        if good_coordinates == len(input) and stage == len(input):
-            return True
-        else:
-            return False
-    except TypeError:
-        return False
-
 # Asks for the coordinates of the ships,
 # checks its format and whether the place is reserved or not
 def player_1_ship_place(stage):
+    from commonFunctions import isInputValid
     global coordsNearShips1
     good_coordinates = []
     while True:
@@ -510,6 +359,7 @@ def player_1_ship_place(stage):
 # Asks for the coordinates of the ships,
 # checks its format and whether the place is reserved or not
 def player_2_ship_place(stage):
+    from commonFunctions import isInputValid
     good_coordinates = []
     global coordsNearShips2
     while True:
@@ -826,4 +676,5 @@ while exit == False:
         gameplay()
         print(coordsNearShips1)  # Only for debugging
         print(coordsNearShips2)  # Only for debugging
-        a = input("Press enter to continue ")
+        a = input("Press enter to continue ")  # Only for debugging
+        saving()  # Only for debugging
