@@ -88,14 +88,13 @@ def rowsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
 
 def columnsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
     if isReverse(coordsOfShip) is True:
-        print("Nu")
         leftEnd = letter(coordsOfShip, -1) + numberPrev(coordsOfShip[-1])
         rightEnd = letter(coordsOfShip) + numberNext(coordsOfShip[0])
     else:
         leftEnd = letter(coordsOfShip) + numberPrev(coordsOfShip[0])
         rightEnd = letter(coordsOfShip, -1) + numberNext(coordsOfShip[-1])
-        print(leftEnd)  # Only for debugging
-        print(rightEnd)  # Only for debugging
+        # print(leftEnd)  # Only for debugging
+        # print(rightEnd)  # Only for debugging
     coordsNearShip.extend(  # Add to coordsNearShip the column on the left of the ship
             [
             letterAbove(leftEnd) + number(leftEnd, oneCoord=True),
