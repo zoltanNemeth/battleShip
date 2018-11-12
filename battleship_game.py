@@ -398,4 +398,17 @@ while exit == False:
         player_2_strikes = seafield[3]
         if player_1_strike_counter > 0 or player_2_strike_counter > 0:
             loadedPhase = "battle"
+        if placing_turns == 1:
+            maxHits = 1
+        elif placing_turns == 2:
+            maxHits = 3
+        elif placing_turns == 3:
+            maxHits = 6
+        else:
+            maxHits = 10
+
         gameplay()
+        # print(coordsNearShips1)  # Only for debugging
+        # print(coordsNearShips2)  # Only for debugging
+        # a = input("Press enter to continue ")  # Only for debugging
+        # saving()  # Only for debugging
