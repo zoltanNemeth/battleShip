@@ -456,6 +456,73 @@ def menu_func():
         cleaning()
 
 
+def placing():
+    global player_1_placing_counter
+    global player_2_placing_counter
+    global placing_turns
+    while player_1_placing_counter <= placing_turns:
+        insert_input(player_1_seafield, coordInputCheck(player_1_placing_counter, "Player 1", player_1_seafield))
+        if menu == "q":
+            # print(coordsNearShips1)  # Only for debugging
+            # print(coordsNearShips2)  # Only for debugging
+            # input("Press enter to continue ")
+            return
+        player_1_placing_counter += 1
+    cleaning()
+    while player_2_placing_counter <= placing_turns:
+        insert_input(player_2_seafield, coordInputCheck(player_2_placing_counter, "Player 2", player_2_seafield))
+        if menu == "q":
+            return
+        player_2_placing_counter += 1
+    cleaning()
+
+
+def player_1_striking():
+    global player_1_hits
+    global player_2_hits
+    global player_1_strike_counter
+    global player_2_strike_counter
+    print_field(player_1_strikes)
+    # print(player_1_hits, player_1_strike_counter)  # Only for debugging
+    # print(player_2_hits, player_2_strike_counter)  # Only for debugging
+    striking_function("player 1", player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
+    if menu == "q":
+        return
+    player_1_strike_counter += 1
+    cleaning()
+
+
+def player_2_striking():
+    global player_1_hits
+    global player_2_hits
+    global player_1_strike_counter
+    global player_2_strike_counter
+    print_field(player_2_strikes)
+    # print(player_1_hits, player_1_strike_counter)  # Only for debugging
+    # print(player_2_hits, player_2_strike_counter)  # Only for debugging
+    striking_function("player 2", player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
+    if menu == "q":
+        return
+    player_2_strike_counter += 1
+    cleaning()
+
+
+def battle():
+    global player_1_hits
+    global player_2_hits
+    global player_1_strike_counter
+    global player_2_strike_counter
+    while player_1_hits < maxHits and player_2_hits < maxHits:
+        if player_1_strike_counter <= player_2_strike_counter:
+            player_1_striking()
+            if menu == "q":
+                return
+        else:
+            player_2_striking()
+            if menu == "q":
+                return
+
+
 def gameplay():
 
     global player_1_seafield
@@ -469,72 +536,6 @@ def gameplay():
     cleaning()
     if menu == "q":
         return
-
-    def placing():
-        global player_1_placing_counter
-        global player_2_placing_counter
-        global placing_turns
-
-        while player_1_placing_counter <= placing_turns:
-            insert_input(player_1_seafield, coordInputCheck(player_1_placing_counter, "Player 1", player_1_seafield))
-            if menu == "q":
-                # print(coordsNearShips1)  # Only for debugging
-                # print(coordsNearShips2)  # Only for debugging
-                # input("Press enter to continue ")
-                return
-            player_1_placing_counter += 1
-        cleaning()
-
-        while player_2_placing_counter <= placing_turns:
-            insert_input(player_2_seafield, coordInputCheck(player_2_placing_counter, "Player 2", player_2_seafield))
-            if menu == "q":
-                return
-            player_2_placing_counter += 1
-        cleaning()
-
-    def battle():
-        global player_1_hits
-        global player_2_hits
-        global player_1_strike_counter
-        global player_2_strike_counter
-
-        def player_1_striking():
-            global player_1_hits
-            global player_2_hits
-            global player_1_strike_counter
-            global player_2_strike_counter
-            print_field(player_1_strikes)
-            # print(player_1_hits, player_1_strike_counter)  # Only for debugging
-            # print(player_2_hits, player_2_strike_counter)  # Only for debugging
-            striking_function("player 1", player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
-            if menu == "q":
-                return
-            player_1_strike_counter += 1
-            cleaning()
-
-        def player_2_striking():
-            global player_1_hits
-            global player_2_hits
-            global player_1_strike_counter
-            global player_2_strike_counter
-            print_field(player_2_strikes)
-            # print(player_1_hits, player_1_strike_counter)  # Only for debugging
-            # print(player_2_hits, player_2_strike_counter)  # Only for debugging
-            striking_function("player 2", player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
-            if menu == "q":
-                return
-            player_2_strike_counter += 1
-            cleaning()
-        
-        while player_1_hits < maxHits and player_2_hits < maxHits:
-            if player_1_strike_counter <= player_2_strike_counter:
-                player_1_striking()
-                if menu == "q":
-                    return
-            else:
-                player_2_striking()
-                if menu == "q":
-                    return
 
     if loadedPhase == "battle":
         battle()
