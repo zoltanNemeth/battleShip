@@ -127,7 +127,7 @@ def new_placing(coordinates, stage, seafield):
     from commonFunctions import number, numberNext, numberPrev
     from commonFunctions import position, isInputValid, letters, coord1IsOnWhatSideOfCoord2
 
-    print(coordinates, stage)  # Only for debugging
+    # print(coordinates, stage)  # Only for debugging
 
     if len(coordinates) >= 2 and isInputValid(coordinates, seafield) is True:
 
@@ -149,9 +149,9 @@ def new_placing(coordinates, stage, seafield):
                 coordinates = False
                 return coordinates
         # try:
-        print(".")  # Only for debugging
+        # print(".")  # Only for debugging
         if stage == 3:  # This statement adds a 3rd coord to the existing 2
-            print("..")  # Only for debugging
+            # print("..")  # Only for debugging
             if position(coordinates) == "horizontal":  # If coord1 and coord2 are in the same row
                 if coord1IsOnWhatSideOfCoord2(coordinates) == "right":  # If coord1 is on the right of coord2
                     coordinates.append(letter(coordinates)
@@ -161,7 +161,7 @@ def new_placing(coordinates, stage, seafield):
                     coordinates.append(coordinates[0][0]
                                               + (str(int(coordinates[0][1]) + 2))
                                               )
-                    print("...")  # Only for debugging
+                    # print("...")  # Only for debugging
                 else:
                     coordinates = False
                     return coordinates
@@ -238,7 +238,7 @@ def new_placing(coordinates, stage, seafield):
         # except IndexError:
         #    coordinates = False
         #    return coordinates
-    print("???")  # Only for debugging
+    # print("???")  # Only for debugging
 
 def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
 
@@ -323,23 +323,23 @@ def coordInputCheck(stage, player, seafield):  # coordInputCheck!!!!!!!!!!!!!!!!
         if len(coordInput) != 1:
             # if isInputValid(stage, player1_shcoordInputip_place, seafield) == True:
             coordInput = new_placing(coordInput, stage, seafield)
-            print(coordInput)  # Only for debugging
+            # print(coordInput)  # Only for debugging
         if type(coordInput) != bool:
-            print(player)  # Only for debugging
+            # print(player)  # Only for debugging
             try:
                 if len(coordInput) >= 1:
-                    print(player)  # Only for debugging
+                    # print(player)  # Only for debugging
                     if isInputValid(coordInput, seafield, stage) == True:
-                        print(player)  # Only for debugging
+                        # print(player)  # Only for debugging
                         # print("len of... ", len(coordInput))  # Only for debugging
                         collectCoordsNearShip(stage, coordInput, coordsNearShip)
                         # print(coordsNearShip)  # Only for debugging
                         for ship in coordInput:
-                            print(player, "...")  # Only for debugging
+                            # print(player, "...")  # Only for debugging
                             for coordinate in seafield:
                                 if ship == coordinate and coordinate != "OO" and ship not in coordsNearShip:
                                     good_coordinates.append("1")
-                                    print(good_coordinates)  # Only for debugging
+                                    # print(good_coordinates)  # Only for debugging
             except TypeError:
                 pass
         # print(good_coordinates)   # Only for debugging
