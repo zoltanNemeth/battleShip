@@ -31,12 +31,9 @@ h1 h2 h3 h4 h5 h6 h7 h8 h9 h10
 i1 i2 i3 i4 i5 i6 i7 i8 i9 i10 
 j1 j2 j3 j4 j5 j6 j7 j8 j9 j10 
 
-Use letters (rows) and numbers (columns) to enter the coordinates,
-e.g.: a1 a2
+Use letters (rows) and numbers (columns) to enter the coordinates, e.g.: a1 a2
 
-If you place 3 coordinate-long or longer ships,
-the first coord. means the starter coord.,
-the second means the direction where the program complete the shipplacement.
+If you place 3 coordinate-long or longer ships, the first coord. means the starter coord., the second means the direction where the program completes the shipplacement.
 
 The second direction meaning coordinate can be all the closest coordinates above, below and next to it.
 
@@ -51,7 +48,7 @@ After the screen is cleard, this happens to the second player, too.
 Then comes the battle phase.
 The two players guess one by one.
 Every time the guesses/strikes are printed out to help choosing.
-If you miss target, it appears as grey xx, if it hits it, it appears as red @@.
+If you miss target, it appears as grey xx, if you hit it, it appears as red @@.
 
 5.--------------------
 At the end of the game you get some statistics, the winner's strikes and a congratulation message.
