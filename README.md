@@ -38,6 +38,8 @@ If you place 3 coordinate-long or longer ships,
 the first coord. means the starter coord.,
 the second means the direction where the program complete the shipplacement.
 
+The second direction meaning coordinate can be all the closest coordinates above, below and next to it.
+
 The placed ships are indicated with OOs instead of the coordinates.
 
 If you use wrong format or reserved place, you have to try again.
@@ -52,4 +54,4 @@ Every time the guesses/strikes are printed out to help choosing.
 If you miss target, it appears as grey xx, if it hits it, it appears as red @@.
 
 5.--------------------
-At the end of the game you get some statistics, the winner's strikes and a congratulation.
+At the end of the game you get some statistics, the winner's strikes and a congratulation message.
