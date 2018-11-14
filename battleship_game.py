@@ -410,15 +410,13 @@ def striking_check(strikes, player):
             print("Wrong format or reserved place, try again!")
 
 
-def menu_func():
+def menu_func(menu, exit):
 
     cleaning()
 
-    global menu
-
     pause = True
 
-    while pause == True:
+    while pause is True:
 
         menu = input(bold+whitebgblack+"\nBATTLESHIP GAME by Sano and Zoli"
                      + "\n\n" + "Press q to exit"
@@ -430,9 +428,8 @@ def menu_func():
                      )
 
         if menu == "q":  # BUG need to be implemented
-            global exit
             exit = True
-            return
+            return menu, exit
 
         elif menu == "m":
             print("\nThe size of the seafield is 10X10, "
@@ -445,16 +442,13 @@ def menu_func():
             continue
 
         elif menu == "l":
-            return
+            return menu, exit
 
         elif menu == "s":
-            return
+            return menu, exit
 
         elif menu == "sv":
             saving()
-
-        elif menu == "c":  # to be continued...
-            pause = False  # Or should we use return?
 
         cleaning()
 
@@ -613,8 +607,8 @@ exit = False
 loadedPhase = ""
 
 
-while exit == False:
-    menu_func()
+while exit is False:
+    menu, exit = menu_func(menu, exit)
     if menu != "q":
         placing_turns = 0
         player_1_placing_counter = 1
