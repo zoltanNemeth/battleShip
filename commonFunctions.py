@@ -5,6 +5,7 @@ def letter(coordinates, index=0):
     letter = coordinates[index][0]
     return letter
 
+
 def letterAbove(coordinate):
     if coordinate[0] != "a":
         letterAbove = letters[letters.index(coordinate[0]) - 1]  # BUG coord jx added in case of ax
@@ -12,12 +13,14 @@ def letterAbove(coordinate):
         letterAbove = "x"
     return letterAbove
 
+
 def letterBelow(coordinate):
     try:
         letterBelow = letters[letters.index(coordinate[0]) + 1]  # BUG IndexError (out of range)
     except IndexError:
         letterBelow = "x"
     return letterBelow
+
 
 def number(coordinates, index=0, oneCoord=False):
     if len(coordinates[index]) == 3:
@@ -31,12 +34,14 @@ def number(coordinates, index=0, oneCoord=False):
         number = coordinates[index][1]
     return number
 
+
 def numberNext(coordinate):
     if len(coordinate) == 3:
         numberNext = "0"
     else:
         numberNext = str(int(coordinate[1]) + 1)  # small BUG can give coord x10? unnecessarily
     return numberNext
+
 
 def numberPrev(coordinate):
     if len(coordinate) == 3:
@@ -45,11 +50,13 @@ def numberPrev(coordinate):
         numberPrev = str(int(coordinate[1]) - 1)  # small BUG can give coord x0 unnecessarily
     return numberPrev
 
+
 def position(coordsOfShip):
     if coordsOfShip[0][0] == coordsOfShip[-1][0]:
         return "horizontal"
     else:
         return "vertical"
+
 
 def coord1IsOnWhatSideOfCoord2(coordsOfShip):
     if number(coordsOfShip) == str(int(number(coordsOfShip, 1)) + 1):
@@ -60,6 +67,7 @@ def coord1IsOnWhatSideOfCoord2(coordsOfShip):
         return coord1IsOnWhatSideOfCoord2
     else:
         return
+
 
 def isReverse(coordsOfShip):
     if position(coordsOfShip) == "horizontal":
@@ -73,6 +81,7 @@ def isReverse(coordsOfShip):
         else:
             return False
 
+
 def rowsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
     for coordinate in coordsOfShip:  # Add to coordsNearShip the row above and below of the ship
         if letter != "a":
@@ -85,6 +94,7 @@ def rowsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
                 letterBelow(coordinate)
                 + number(coordinate, oneCoord=True)
             )
+
 
 def columnsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
     if isReverse(coordsOfShip) is True:
@@ -110,16 +120,24 @@ def columnsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
         ]
     )
 
-def isInputValid(stage, input, seafield):
+
+def isInputValid(input, seafield, stage=0):
     try:
         good_coordinates = 0
         for item in input:
             for coordinate in seafield:
                 if item == coordinate and coordinate != "OO":
                         good_coordinates += 1
-        if good_coordinates == len(input) and stage == len(input):
-            return True
-        else:
-            return False
+        print("good coords: ", good_coordinates)  # Only for debugging
+        if stage == 0:
+            if good_coordinates == len(input):
+                return True
+            else:
+                return False
+        if stage > 0:
+            if good_coordinates == len(input) and stage == len(input):
+                return True
+            else:
+                return False
     except TypeError:
         return False
