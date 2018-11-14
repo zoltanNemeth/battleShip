@@ -79,9 +79,9 @@ def saving(filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame")
                         + "p"
                         + str(player_2_strike_counter)
                         + "p"
-                        + ",".join(coordsNearShips1)
+                        + ",".join(coordsNearShip1)
                         + "p"
-                        + ",".join(coordsNearShips2)
+                        + ",".join(coordsNearShip2)
                         )
 
 
@@ -596,8 +596,8 @@ def seafield_func():
         player_2_hits = int(seafield[8])
         player_1_strike_counter = int(seafield[9])
         player_2_strike_counter = int(seafield[10])
-        coordsNearShips1 = seafield[11]
-        coordsNearShips2 = seafield[12]
+        coordsNearShip1 = seafield[11]
+        coordsNearShip2 = seafield[12]
         # print(coordsNearShips1)  # Only for debugging
         # print(coordsNearShips2)  # Only for debugging
         # a = input("press enter to continue")  # Only for debugging
