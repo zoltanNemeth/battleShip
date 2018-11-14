@@ -103,8 +103,7 @@ def columnsBeside(coordsOfShip, coordsNearShip):  # IF HORIZONTAL!
     else:
         leftEnd = letter(coordsOfShip) + numberPrev(coordsOfShip[0])
         rightEnd = letter(coordsOfShip, -1) + numberNext(coordsOfShip[-1])
-        # print(leftEnd)  # Only for debugging
-        # print(rightEnd)  # Only for debugging
+
     coordsNearShip.extend(  # Add to coordsNearShip the column on the left of the ship
             [
             letterAbove(leftEnd) + number(leftEnd, oneCoord=True),
@@ -128,7 +127,6 @@ def isInputValid(input, seafield, stage=0):
             for coordinate in seafield:
                 if item == coordinate and coordinate != "OO":
                         good_coordinates += 1
-        print("good coords: ", good_coordinates)  # Only for debugging
         if stage == 0:
             if good_coordinates == len(input):
                 return True
