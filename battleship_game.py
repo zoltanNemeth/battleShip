@@ -370,45 +370,6 @@ def insert_input(seafield, shipplace):
                 seafield.insert(index, "OO")
     print_field(seafield)
 
-# Decides whether the strike hits a shippart or not
-# and changes the strikes list and increment the hits by one
-def striking_function(player, strikes, strike, seafield):
-    if strike == "q":
-        global menu
-        menu = "q"
-        return "q"
-    global player_1_hits
-    global player_2_hits
-    for i in strikes:
-        index_of_list = strikes.index(i) 
-        if strikes[index_of_list] == strike:
-            del strikes[index_of_list]
-            strikes.insert(index_of_list, "xx")
-            if seafield[index_of_list] == "OO":
-                strikes.insert(index_of_list, "@@")
-                del strikes[index_of_list + 1]
-                if player == "Player 1":
-                    player_1_hits += 1
-                elif player == "Player 2":
-                    player_2_hits += 1
-                break
-
-
-# Checks...
-def striking_check(strikes, player):
-    good_coordinates = []
-    while True:
-        new_strike = input(player + " , please give a coordinate to strike: ")
-        if new_strike == "q":
-            return "q"
-        for strike in strikes:
-            if new_strike == strike and strike != "OO" and strike != "xx":    
-                good_coordinates.append("1")
-        if len(good_coordinates) == 1:
-            return new_strike
-        else:
-            print("Wrong format or reserved place, try again!")
-
 
 def menu_func(menu, exit):
 
@@ -474,6 +435,46 @@ def placing():
     cleaning()
 
 
+# Decides whether the strike hits a shippart or not
+# and changes the strikes list and increment the hits by one
+def striking_function(player, strikes, strike, seafield):
+    if strike == "q":
+        global menu
+        menu = "q"
+        return "q"
+    global player_1_hits
+    global player_2_hits
+    for i in strikes:
+        index_of_list = strikes.index(i) 
+        if strikes[index_of_list] == strike:
+            del strikes[index_of_list]
+            strikes.insert(index_of_list, "xx")
+            if seafield[index_of_list] == "OO":
+                strikes.insert(index_of_list, "@@")
+                del strikes[index_of_list + 1]
+                if player == "Player 1":
+                    player_1_hits += 1
+                elif player == "Player 2":
+                    player_2_hits += 1
+                break
+
+
+# Checks...
+def striking_check(strikes, player):
+    good_coordinates = []
+    while True:
+        new_strike = input(player + " , please give a coordinate to strike: ")
+        if new_strike == "q":
+            return "q"
+        for strike in strikes:
+            if new_strike == strike and strike != "OO" and strike != "xx":    
+                good_coordinates.append("1")
+        if len(good_coordinates) == 1:
+            return new_strike
+        else:
+            print("Wrong format or reserved place, try again!")
+
+
 def strike_input(player):
     if player == "Player 1":
         global player_1_hits
@@ -498,11 +499,24 @@ def strike_input(player):
     cleaning()
 
 
-def battle():
+def gameplay():
+
     global player_1_hits
     global player_2_hits
     global player_1_strike_counter
     global player_2_strike_counter
+    global maxHits
+
+    cleaning()
+
+    if menu == "q":
+        return
+
+    placing()
+
+    if menu == "q":
+        return
+
     while player_1_hits < maxHits and player_2_hits < maxHits:
         if player_1_strike_counter <= player_2_strike_counter:
             strike_input("Player 1")
@@ -512,32 +526,6 @@ def battle():
             strike_input("Player 2")
             if menu == "q":
                 return
-
-
-def gameplay():
-
-    global player_1_seafield
-    global player_1_strikes
-    global player_2_seafield
-    global player_2_strikes
-    global loadingPhase
-    global player_1_hits
-    global player_2_hits
-    
-    cleaning()
-    if menu == "q":
-        return
-
-    if loadedPhase == "battle":
-        battle()
-    else:
-        placing()
-        if menu == "q":
-            return
-        battle()
-
-    if menu == "q":
-        return
 
     if player_2_hits > player_1_hits:
         # print(player_1_hits, player_1_strike_counter)  # Only for debugging
@@ -604,7 +592,6 @@ def seafield_func():
 cleaning()
 menu = ""
 exit = False
-loadedPhase = ""
 
 
 while exit is False:
@@ -626,8 +613,6 @@ while exit is False:
         player_1_strikes = seafield[1]
         player_2_seafield = seafield[2]
         player_2_strikes = seafield[3]
-        if player_1_strike_counter > 0 or player_2_strike_counter > 0:
-            loadedPhase = "battle"
         if placing_turns == 1:
             maxHits = 1
         elif placing_turns == 2:
