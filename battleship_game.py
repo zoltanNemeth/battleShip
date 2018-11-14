@@ -385,17 +385,18 @@ def striking_function(player, strikes, strike, seafield):
             if seafield[index_of_list] == "OO":
                 strikes.insert(index_of_list, "@@")
                 del strikes[index_of_list + 1]
-                if player == "player 1":
+                if player == "Player 1":
                     player_1_hits += 1
-                elif player == "player 2":
+                elif player == "Player 2":
                     player_2_hits += 1
                 break
+
 
 # Checks...
 def striking_check(strikes, player):
     good_coordinates = []
     while True:
-        new_strike = input("\n\nPlayer " + str(player) + ", please give a coordinate to strike: ")
+        new_strike = input(player + " , please give a coordinate to strike: ")
         if new_strike == "q":
             return "q"
         for strike in strikes:
@@ -477,33 +478,27 @@ def placing():
     cleaning()
 
 
-def player_1_striking():
-    global player_1_hits
-    global player_2_hits
-    global player_1_strike_counter
-    global player_2_strike_counter
-    print_field(player_1_strikes)
+def strike_input(player):
+    if player == "Player 1":
+        global player_1_hits
+        global player_1_strike_counter
+        strikes = player_1_strikes
+        seafield = player_1_seafield
+    if player == "Player 2":
+        global player_2_hits
+        global player_2_strike_counter
+        strikes = player_2_strikes
+        seafield = player_2_seafield
+    print_field(strikes)
     # print(player_1_hits, player_1_strike_counter)  # Only for debugging
     # print(player_2_hits, player_2_strike_counter)  # Only for debugging
-    striking_function("player 1", player_1_strikes, striking_check(player_1_strikes, 1), player_2_seafield)
+    striking_function(player, strikes, striking_check(strikes, player), seafield)
     if menu == "q":
         return
-    player_1_strike_counter += 1
-    cleaning()
-
-
-def player_2_striking():
-    global player_1_hits
-    global player_2_hits
-    global player_1_strike_counter
-    global player_2_strike_counter
-    print_field(player_2_strikes)
-    # print(player_1_hits, player_1_strike_counter)  # Only for debugging
-    # print(player_2_hits, player_2_strike_counter)  # Only for debugging
-    striking_function("player 2", player_2_strikes, striking_check(player_2_strikes, 2), player_1_seafield)
-    if menu == "q":
-        return
-    player_2_strike_counter += 1
+    if player == "Player 1":
+        player_1_strike_counter += 1
+    elif player == "Player 2":
+        player_2_strike_counter += 1
     cleaning()
 
 
@@ -514,11 +509,11 @@ def battle():
     global player_2_strike_counter
     while player_1_hits < maxHits and player_2_hits < maxHits:
         if player_1_strike_counter <= player_2_strike_counter:
-            player_1_striking()
+            strike_input("Player 1")
             if menu == "q":
                 return
         else:
-            player_2_striking()
+            strike_input("Player 2")
             if menu == "q":
                 return
 
