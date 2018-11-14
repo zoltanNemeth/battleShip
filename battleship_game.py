@@ -1,5 +1,7 @@
 import os
 
+fileDir = os.path.dirname(os.path.abspath(__file__))
+
 # Some colors for the game
 # from colorama import Fore
 # from colorama import Styleq
@@ -54,7 +56,7 @@ def cleaning():  # Clears the screen.
     os.system("clear")
 
 
-def saving(filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame"):
+def saving(filename=fileDir + "/battleShipSavedGame"):
     # BUG you should change filepath manually before running the program
     with open(filename, "w") as savedFile:
         savedFile.write(",".join(player_1_seafield)
@@ -85,7 +87,7 @@ def saving(filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame")
                         )
 
 
-def loading(type, filename="/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame"):
+def loading(type, filename=fileDir + "/battleShipSavedGame"):
     if type == "new":
         with open(filename, "r") as savedFile:
             data = savedFile.read()
@@ -570,7 +572,7 @@ def seafield_func():
     global player_1_strike_counter
     global player_2_strike_counter
     if menu == "s":
-        seafield = loading("new", "/home/nemethzoltan/Desktop/battleShip/battleShipSeafield")
+        seafield = loading("new", fileDir + "/battleShipSeafield")
         while placing_turns <= 0 or placing_turns > 4:
             x = False
             while x is False:
@@ -588,7 +590,7 @@ def seafield_func():
                     x = True
         return
     elif menu == "l":
-        seafield = loading("saved", "/home/nemethzoltan/Desktop/battleShip/battleShipSavedGame")
+        seafield = loading("saved",  fileDir + "/battleShipSavedGame")
         player_1_placing_counter = int(seafield[4])
         player_2_placing_counter = int(seafield[5])
         placing_turns = int(seafield[6])
