@@ -2,12 +2,6 @@ import os
 
 fileDir = os.path.dirname(os.path.abspath(__file__))
 
-# Some colors for the game
-# from colorama import Fore
-# from colorama import Styleq
-# from termcolor import colored
-# CBLUE   = '\33[34m'
-
 # COLORS AND STYLE
 
 
@@ -57,7 +51,6 @@ def cleaning():  # Clears the screen.
 
 
 def saving(filename=fileDir + "/battleShipSavedGame"):
-    # BUG you should change filepath manually before running the program
     with open(filename, "w") as savedFile:
         savedFile.write(",".join(player_1_seafield)
                         + "p"
@@ -127,8 +120,6 @@ def new_placing(coordinates, stage, seafield):
     from commonFunctions import number, numberNext, numberPrev
     from commonFunctions import position, isInputValid, letters, coord1IsOnWhatSideOfCoord2
 
-    # print(coordinates, stage)  # Only for debugging
-
     if len(coordinates) >= 2 and isInputValid(coordinates, seafield) is True:
 
         if stage == 2:
@@ -137,9 +128,6 @@ def new_placing(coordinates, stage, seafield):
             number1 = number(coordinates)
             number2 = number(coordinates, 1)
             firstCoord = coordinates[0]
-            # print("Hol a hiba?")
-            # print(letter1, number1, letter2, number2)
-            # print(letterAbove, letterBelow)
             if letter1 == letter2 and (number2 == numberNext(firstCoord) or number2 == numberPrev(firstCoord)):
                 return coordinates  # left or right
             elif letter2 == letterAbove(firstCoord) or letter2 == letterBelow(firstCoord) and number1 == number2:
@@ -148,10 +136,8 @@ def new_placing(coordinates, stage, seafield):
             else:
                 coordinates = False
                 return coordinates
-        # try:
-        # print(".")  # Only for debugging
+
         if stage == 3:  # This statement adds a 3rd coord to the existing 2
-            # print("..")  # Only for debugging
             if position(coordinates) == "horizontal":  # If coord1 and coord2 are in the same row
                 if coord1IsOnWhatSideOfCoord2(coordinates) == "right":  # If coord1 is on the right of coord2
                     coordinates.append(letter(coordinates)
@@ -161,7 +147,6 @@ def new_placing(coordinates, stage, seafield):
                     coordinates.append(coordinates[0][0]
                                               + (str(int(coordinates[0][1]) + 2))
                                               )
-                    # print("...")  # Only for debugging
                 else:
                     coordinates = False
                     return coordinates
@@ -170,14 +155,10 @@ def new_placing(coordinates, stage, seafield):
                     if letter == coordinates[0][0]:
                         if letters.index(letter) > letters.index(coordinates[1][0]):  # If coord1 is below than coord2
                             if (letters.index(letter) - 2) > 0:
-                                # print("Here I am", coordinates)  # Only for debugging
-                                # print(letterAbove(coordinates[-1]))  # Only for debugging
-                                # print(number(coordinates))  # Only for debugging
                                 coordinates.append(
                                     letterAbove(coordinates[-1])
                                     + number(coordinates)
                                 )
-                                # print("Here I am2", coordinates)  # Only for debugging
                             else:
                                 coordinates = False
                                 return coordinates
@@ -189,6 +170,7 @@ def new_placing(coordinates, stage, seafield):
                             coordinates = False
                             return coordinates
             return coordinates
+
         if stage == 4:
             if coordinates[0][0] == coordinates[1][0]:  # If coord1 and coord2 is in the same row 
                 if coordinates[0][1] == str(int(coordinates[1][1]) + 1):  # If coord1 is on the right of coord2
@@ -212,9 +194,7 @@ def new_placing(coordinates, stage, seafield):
                 for letter in letters:
                     if letter == coordinates[0][0]:
                         if letters.index(letter) > letters.index(coordinates[1][0]):  # If coord1 is below than coord2
-                            # print("Here I am")  # Only for debugging
                             if (letters.index(letter) - 3) >= 0:
-                                # print("Here I am")  # Only for debugging
                                 coordinates.append(letters[letters.index(letter) - 2]
                                                           + number(coordinates)
                                                           )
@@ -235,10 +215,7 @@ def new_placing(coordinates, stage, seafield):
                             coordinates = False
                             return coordinates
             return coordinates
-        # except IndexError:
-        #    coordinates = False
-        #    return coordinates
-    # print("???")  # Only for debugging
+
 
 def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
 
@@ -246,11 +223,8 @@ def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
     from commonFunctions import number, numberNext, numberPrev
     from commonFunctions import position, rowsBeside, columnsBeside, isReverse, letters
 
-    # global coordsNearShips1  # Only for debugging
-    # global coordsNearShips2  # Only for debugging
-
     if stage == 1:  # Collects the coords near the 1-coord-long ship
-            
+
         coordsNearShips.extend(
             [
             letter(coordsOfShip) + numberNext(coordsOfShip[0]),  # right coord
@@ -266,13 +240,10 @@ def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
 
     if stage >= 2:
         if position(coordsOfShip) == "horizontal":
-            # print("horizontal")  # Only for debugging
             rowsBeside(coordsOfShip, coordsNearShips)
             columnsBeside(coordsOfShip, coordsNearShips)
         else:  # If vertical
-            # print("vertical")  # Only for debugging
-            if isReverse(coordsOfShip) == True:
-                # print("reverse")  # Only for debugging
+            if isReverse(coordsOfShip) is True:
                 endAbove = letterBelow(coordsOfShip[0]) + number(coordsOfShip)
                 endBelow = letterAbove(coordsOfShip[-1]) + number(coordsOfShip, -1)
             else:  # If not reversed
@@ -304,9 +275,10 @@ def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
                     ]
                 )
 
+
 # Asks for the coordinates of the ships,
 # checks its format and whether the place is reserved or not
-def coordInputCheck(stage, player, seafield):  # coordInputCheck!!!!!!!!!!!!!!!!!!!
+def coordInputCheck(stage, player, seafield):
     from commonFunctions import isInputValid
     if player == "Player 1":
         global coordsNearShip1
@@ -321,28 +293,18 @@ def coordInputCheck(stage, player, seafield):  # coordInputCheck!!!!!!!!!!!!!!!!
         if coordInput == ["q"]:
             return "q"
         if len(coordInput) != 1:
-            # if isInputValid(stage, player1_shcoordInputip_place, seafield) == True:
             coordInput = new_placing(coordInput, stage, seafield)
-            # print(coordInput)  # Only for debugging
         if type(coordInput) != bool:
-            # print(player)  # Only for debugging
             try:
                 if len(coordInput) >= 1:
-                    # print(player)  # Only for debugging
                     if isInputValid(coordInput, seafield, stage) == True:
-                        # print(player)  # Only for debugging
-                        # print("len of... ", len(coordInput))  # Only for debugging
                         collectCoordsNearShip(stage, coordInput, coordsNearShip)
-                        # print(coordsNearShip)  # Only for debugging
                         for ship in coordInput:
-                            # print(player, "...")  # Only for debugging
                             for coordinate in seafield:
                                 if ship == coordinate and coordinate != "OO" and ship not in coordsNearShip:
                                     good_coordinates.append("1")
-                                    # print(good_coordinates)  # Only for debugging
             except TypeError:
                 pass
-        # print(good_coordinates)   # Only for debugging
         if len(good_coordinates) == stage:
             return coordInput
         else:
@@ -388,7 +350,7 @@ def menu_func(menu, exit):
                      + '\033[0m'
                      )
 
-        if menu == "q":  # BUG need to be implemented
+        if menu == "q":
             exit = True
             return menu, exit
 
@@ -417,9 +379,6 @@ def placing():
     while player_1_placing_counter <= placing_turns:
         insert_input(player_1_seafield, coordInputCheck(player_1_placing_counter, "Player 1", player_1_seafield))
         if menu == "q":
-            # print(coordsNearShips1)  # Only for debugging
-            # print(coordsNearShips2)  # Only for debugging
-            # input("Press enter to continue ")
             return
         player_1_placing_counter += 1
     cleaning()
@@ -481,8 +440,6 @@ def strike_input(player):
         strikes = player_2_strikes
         seafield = player_2_seafield
     print_field(strikes)
-    # print(player_1_hits, player_1_strike_counter)  # Only for debugging
-    # print(player_2_hits, player_2_strike_counter)  # Only for debugging
     striking_function(player, strikes, striking_check(strikes, player), seafield)
     if menu == "q":
         return
@@ -522,14 +479,10 @@ def gameplay():
                 return
 
     if player_2_hits > player_1_hits:
-        # print(player_1_hits, player_1_strike_counter)  # Only for debugging
-        # print(player_2_hits, player_2_strike_counter)  # Only for debugging
         print("\n\n" + "Player 2 won in", player_2_strike_counter, "turns.")
         print("Player 1 would need", maxHits - player_1_hits, "more hit(s).")
         print_field(player_2_strikes)
     elif player_2_hits < player_1_hits:
-        # print(player_1_hits, player_1_strike_counter)  # Only for debugging
-        # print(player_2_hits, player_2_strike_counter)  # Only for debugging
         print("\n\n" + "Player 1 won in", player_1_strike_counter, "turns.")
         print("Player 2 would need", maxHits - player_2_hits, "more hit(s).")
         print_field(player_1_strikes)
@@ -585,14 +538,12 @@ while exit is False:
             player_2_strike_counter = int(seafield[10])
             coordsNearShip1 = seafield[11]
             coordsNearShip2 = seafield[12]
-            # print(coordsNearShips1)  # Only for debugging
-            # print(coordsNearShips2)  # Only for debugging
-            # a = input("press enter to continue")  # Only for debugging
 
         player_1_seafield = seafield[0]
         player_1_strikes = seafield[1]
         player_2_seafield = seafield[2]
         player_2_strikes = seafield[3]
+
         if placing_turns == 1:
             maxHits = 1
         elif placing_turns == 2:
@@ -603,7 +554,3 @@ while exit is False:
             maxHits = 10
 
         gameplay()
-        # print(coordsNearShips1)  # Only for debugging
-        # print(coordsNearShips2)  # Only for debugging
-        # a = input("Press enter to continue ")  # Only for debugging
-        # saving()  # Only for debugging
