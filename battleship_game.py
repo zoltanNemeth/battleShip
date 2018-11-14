@@ -393,13 +393,9 @@ def menu_func(menu, exit):
             return menu, exit
 
         elif menu == "m":
-            print("\nThe size of the seafield is 10X10, "
-                  + "use letters (rows) and numbers (columns) "
-                  + "to enter the coordinates, e.g.: a1 a2"
-                  + "\nIf you place 3 coordinate-long or longer ships, "
-                  + "the first coord. means the starter coord., the second "
-                  + "means the direction where the program complete the shipplacement."
-                  )
+            with open(fileDir + "/README.md") as manual:
+                manual = manual.read()
+                print(manual)
             continue
 
         elif menu == "l":
@@ -477,12 +473,10 @@ def striking_check(strikes, player):
 
 def strike_input(player):
     if player == "Player 1":
-        global player_1_hits
         global player_1_strike_counter
         strikes = player_1_strikes
         seafield = player_1_seafield
     if player == "Player 2":
-        global player_2_hits
         global player_2_strike_counter
         strikes = player_2_strikes
         seafield = player_2_seafield
@@ -543,51 +537,6 @@ def gameplay():
     exit = True
 
 
-def seafield_func():
-    global menu
-    global seafield
-    global player_1_placing_counter
-    global player_2_placing_counter
-    global placing_turns
-    global player_1_hits
-    global player_2_hits
-    global player_1_strike_counter
-    global player_2_strike_counter
-    if menu == "s":
-        seafield = loading("new", fileDir + "/battleShipSeafield")
-        while placing_turns <= 0 or placing_turns > 4:
-            x = False
-            while x is False:
-                placing_turns = "a"
-                while type(placing_turns) != int:
-                    try:
-                        placing_turns = input("How many ships would you like? ")
-                        if placing_turns != "q":
-                            placing_turns = int(placing_turns)
-                    except ValueError:
-                        print("Only integers are allowed!")
-                    if placing_turns == "q":
-                        menu = "q"
-                        return
-                    x = True
-        return
-    elif menu == "l":
-        seafield = loading("saved",  fileDir + "/battleShipSavedGame")
-        player_1_placing_counter = int(seafield[4])
-        player_2_placing_counter = int(seafield[5])
-        placing_turns = int(seafield[6])
-        player_1_hits = int(seafield[7])
-        player_2_hits = int(seafield[8])
-        player_1_strike_counter = int(seafield[9])
-        player_2_strike_counter = int(seafield[10])
-        coordsNearShip1 = seafield[11]
-        coordsNearShip2 = seafield[12]
-        # print(coordsNearShips1)  # Only for debugging
-        # print(coordsNearShips2)  # Only for debugging
-        # a = input("press enter to continue")  # Only for debugging
-        return
-
-
 # TO BE MAIN
 cleaning()
 menu = ""
@@ -607,8 +556,39 @@ while exit is False:
         maxHits = 0
         coordsNearShip1 = []
         coordsNearShip2 = []
-        seafield = []
-        seafield_func()
+
+        if menu == "s":
+            seafield = loading("new", fileDir + "/battleShipSeafield")
+            while placing_turns <= 0 or placing_turns > 4:
+                x = False
+                while x is False:
+                    placing_turns = "a"
+                    while type(placing_turns) != int:
+                        try:
+                            placing_turns = input("How many ships would you like? ")
+                            if placing_turns != "q":
+                                placing_turns = int(placing_turns)
+                        except ValueError:
+                            print("Only integers are allowed!")
+                        if placing_turns == "q":
+                            menu = "q"
+                        x = True
+
+        elif menu == "l":
+            seafield = loading("saved",  fileDir + "/battleShipSavedGame")
+            player_1_placing_counter = int(seafield[4])
+            player_2_placing_counter = int(seafield[5])
+            placing_turns = int(seafield[6])
+            player_1_hits = int(seafield[7])
+            player_2_hits = int(seafield[8])
+            player_1_strike_counter = int(seafield[9])
+            player_2_strike_counter = int(seafield[10])
+            coordsNearShip1 = seafield[11]
+            coordsNearShip2 = seafield[12]
+            # print(coordsNearShips1)  # Only for debugging
+            # print(coordsNearShips2)  # Only for debugging
+            # a = input("press enter to continue")  # Only for debugging
+
         player_1_seafield = seafield[0]
         player_1_strikes = seafield[1]
         player_2_seafield = seafield[2]
