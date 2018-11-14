@@ -306,8 +306,12 @@ def collectCoordsNearShip(stage, coordsOfShip, coordsNearShips):
 # checks its format and whether the place is reserved or not
 def coordInputCheck(stage, player, seafield):  # coordInputCheck!!!!!!!!!!!!!!!!!!!
     from commonFunctions import isInputValid
-    global coordsNearShip1
-    global coordsNearShip2
+    if player == "Player 1":
+        global coordsNearShip1
+        coordsNearShip = coordsNearShip1
+    elif player == "Player 2":
+        global coordsNearShip2
+        coordsNearShip = coordsNearShip2
     good_coordinates = []
     while True:
         coordInput = input(cyan + "\n\n" + player + "! Add coordinate(s) for the " + str(stage) + " coordinate-long ship: "+default)
@@ -326,27 +330,14 @@ def coordInputCheck(stage, player, seafield):  # coordInputCheck!!!!!!!!!!!!!!!!
                     if isInputValid(coordInput, seafield, stage) == True:
                         print(player)  # Only for debugging
                         # print("len of... ", len(coordInput))  # Only for debugging
-                        if player == "Player 1":
-                            print("player1 coordsNear", "...")  # Only for debugging
-                            collectCoordsNearShip(stage, coordInput, coordsNearShip1)
-                        elif player == "Player 2":
-                            print("player2 coordsNear", "...")  # Only for debugging
-                            collectCoordsNearShip(stage, coordInput, coordsNearShip2)
+                        collectCoordsNearShip(stage, coordInput, coordsNearShip)
                         # print(coordsNearShip)  # Only for debugging
                         for ship in coordInput:
                             print(player, "...")  # Only for debugging
                             for coordinate in seafield:
-                                if player == "Player 1":
-                                    print("player 1", "....")  # Only for debugging
-                                    if ship == coordinate and coordinate != "OO" and ship not in coordsNearShip1:
-                                        good_coordinates.append("1")
-                                        print(good_coordinates)  # Only for debugging
-                                        print(coordsNearShip1)  # Only for debugging
-                                elif player == "Player 2":
-                                    print("player 2", "....")  # Only for debugging
-                                    if ship == coordinate and coordinate != "OO" and ship not in coordsNearShip2:
-                                        good_coordinates.append("1")
-                                        print(good_coordinates)  # Only for debugging
+                                if ship == coordinate and coordinate != "OO" and ship not in coordsNearShip:
+                                    good_coordinates.append("1")
+                                    print(good_coordinates)  # Only for debugging
             except TypeError:
                 pass
         # print(good_coordinates)   # Only for debugging
@@ -360,10 +351,7 @@ def coordInputCheck(stage, player, seafield):  # coordInputCheck!!!!!!!!!!!!!!!!
                     wrongCoords = []
                     collectCoordsNearShip(stage, coordInput, wrongCoords)
                     for coordinate in wrongCoords:
-                        if player == "Player 1":
-                            coordsNearShip1.remove(coordinate)
-                        elif player == "Player 2":
-                            coordsNearShip2.remove(coordinate)
+                        coordsNearShip.remove(coordinate)
 
 
 # Changes the checked coordinates to "OO" in the seafield
